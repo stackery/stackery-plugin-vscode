@@ -1,0 +1,59 @@
+{
+	"name": "stackery",
+	"displayName": "Stackery",
+	"description": "CloudLocal AWS Infrastructure Development",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.edit"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.edit",
+				"title": "Edit With Stackery",
+				"category": "Stackery",
+				"icon": {
+					"light": "./media/stackery-navy.svg",
+					"dark": "./media/stackery-teal.svg"
+				}
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "extension.edit",
+					"when": "editorLangId == yaml",
+					"group": "navigation"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "extension.edit",
+					"when": "resourceLangId == yaml",
+					"group": "navigation"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"eslint": "^5.13.0",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"hasbin": "^1.2.3"
+	}
+}
