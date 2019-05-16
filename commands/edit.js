@@ -1,11 +1,18 @@
 const path = require('path');
 
 const vscode = require('vscode');
+
+const setup = require('./setup');
 const stackeryEnv = require('../stackeryEnv');
 
 let localStorage = {};
+let devServer;
 
 module.exports = context => async uri => {
+  if (!devServer) {
+    devServer = await setup();
+  }
+
   const panel = vscode.window.createWebviewPanel(
     'stackery.edit',
     path.basename(uri.path),
