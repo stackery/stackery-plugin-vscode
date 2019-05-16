@@ -21,3 +21,13 @@ The extension can be packaged by doing the following:
 1. Package the extension: `$ vsce package`. This will create a file named `stackery-<version>.vsix` in the top-level directory.
 1. Share the package.
 1. Install the package using: `code <package>`.
+
+### Release
+
+Still mostly TBD
+
+Acquire a personal access token and login using vsce if needed: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+
+1. Determine next version, depending on whether this is a patch, minor, or major version increase
+1. Update CHANGELOG.md (follow [Keep a Changelog](http://keepachangelog.com/) recommendations on how to structure this entries.)
+1. Run `vsce publish [major|minor|patch]`
