@@ -1,13 +1,23 @@
 {
 	"name": "stackery",
-	"displayName": "Stackery",
-	"description": "CloudLocal AWS Infrastructure Development",
+	"displayName": "Stackery Serverless Tools",
+	"description": "Local editing tools for serverless applications",
+	"homepage": "https://www.stackery.io",
+	"icon": "media/icon.png",
 	"version": "0.0.1",
+	"publisher": "stackery",
 	"engines": {
 		"vscode": "^1.33.0"
 	},
 	"categories": [
 		"Other"
+	],
+	"keywords": [
+		"serverless",
+		"sam",
+		"aws",
+		"lambda",
+		"functions"
 	],
 	"activationEvents": [
 		"onCommand:extension.edit"
@@ -54,6 +64,7 @@
 		"@types/mocha": "^2.2.42"
 	},
 	"dependencies": {
-		"hasbin": "^1.2.3"
+		"hasbin": "^1.2.3",
+		"semver": "^6.0.0"
 	}
 }
