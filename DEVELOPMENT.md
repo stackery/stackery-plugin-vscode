@@ -20,7 +20,7 @@ The extension can be packaged by doing the following:
 1. Install the `vsce` tool: `$ npm install -g vsce`.
 1. Package the extension: `$ vsce package`. This will create a file named `stackery-<version>.vsix` in the top-level directory.
 1. Share the package.
-1. Install the package using: `code <package>`.
+1. Install the package using: `code --install-extension <package>`.
 
 ### Release
 
