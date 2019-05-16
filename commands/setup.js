@@ -29,7 +29,7 @@ const request = require('request');
 const semver = require('semver');
 const vscode = require('vscode');
 
-const stackeryEnv = require('./stackeryEnv');
+const stackeryEnv = require('../stackeryEnv');
 
 const STACKERY_INFO_URI = vscode.Uri.parse('https://www.stackery.io/product/');
 const SIGNUP_URI = vscode.Uri.parse('https://app.stackery.io/sign-up');

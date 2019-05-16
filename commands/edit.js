@@ -50,9 +50,11 @@ module.exports = context => async uri => {
     dark: vscode.Uri.file(path.join(context.extensionPath, 'media', 'stackery-teal.svg'))
   };
 
-  let location = editorURL();
+  const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
+
+  let location = editorURL() + `?templatepath=${encodeURIComponent(templatepath)}&port=${devServer.port}`;
   if (Object.keys(localStorage).length > 0) {
-    location += `?localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
+    location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
   }
 
   panel.webview.html =
@@ -98,7 +100,7 @@ iframe.contentWindow.location = "${location}";
   });
 };
 
-const EDITOR_PATH = '/editor/visual';
+const EDITOR_PATH = '/local';
 const editorURL = () => {
   const env = stackeryEnv()._STACKERY_ENV;
 
