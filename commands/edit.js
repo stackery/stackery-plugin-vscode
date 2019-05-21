@@ -81,18 +81,6 @@ iframe.contentWindow.location = "${location}";
         localStorage = {};
         break;
 
-      case 'clipboard.copy':
-        vscode.env.clipboard.writeText(message.text);
-        break;
-
-      case 'clipboard.paste':
-        const buffer = await vscode.env.clipboard.readText();
-        panel.webview.postMessage({
-          type: 'clipboard.paste.buffer',
-          buffer
-        });
-        break;
-
       default:
         console.warn(`stackery: Received unknown message type ${message.type} from extension webview`);
         break;
