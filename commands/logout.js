@@ -19,22 +19,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-const vscode = require('vscode');
-
-const edit = require('./commands/edit');
-const logout = require('./commands/logout');
-
-/**
- * @param {vscode.ExtensionContext} context
- */
-async function activate (context) {
-  let disposable = vscode.commands.registerCommand('extension.edit', edit(context));
-  vscode.commands.registerCommand('extension.logout', logout(context));
-
-  context.subscriptions.push(disposable);
-}
-exports.activate = activate;
-
-module.exports = {
-  activate
+module.exports = context => async uri => {
+  const globalState = context.globalState;
+  await globalState.update('localStorage', undefined);
 };

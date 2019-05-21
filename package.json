@@ -20,7 +20,8 @@
 		"functions"
 	],
 	"activationEvents": [
-		"onCommand:extension.edit"
+		"onCommand:extension.edit",
+		"onCommand:extension.logout"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -33,6 +34,11 @@
 					"light": "./media/stackery-navy.svg",
 					"dark": "./media/stackery-teal.svg"
 				}
+			},
+			{
+				"command": "extension.logout",
+				"title": "Log out of Stackery Editor",
+				"category": "Stackery"
 			}
 		],
 		"menus": {
