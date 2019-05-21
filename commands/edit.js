@@ -32,7 +32,7 @@ module.exports = context => async uri => {
   const globalState = context.globalState;
 
   if (!globalState.get('localStorage')) {
-    globalState.update('localStorage', {});
+    await globalState.update('localStorage', {});
   }
 
   let localStorage = globalState.get('localStorage');
@@ -77,14 +77,16 @@ iframe.contentWindow.location = "${location}";
     switch (message.type) {
       case 'localStorage.setItem':
         localStorage[message.key] = message.value;
+        await globalState.update('localStorage', localStorage);
         break;
 
       case 'localStorage.removeItem':
         delete localStorage[message.key];
+        await globalState.update('localStorage', localStorage);
         break;
 
       case 'localStorage.clear':
-        globalState.update('localStorage', {});
+        await globalState.update('localStorage', {});
         localStorage = globalState.get('localStorage');
         break;
 
