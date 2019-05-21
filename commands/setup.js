@@ -263,7 +263,7 @@ const login = async () => {
 }
 
 const startDevServer = async () => {
-  const workspace = vscode.workspace.workspaceFolders[0].uri.fsPath || undefined;
+  const workspace = vscode.workspace ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
   if (!workspace) {
     await vscode.window.showWarningMessage(
