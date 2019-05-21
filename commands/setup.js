@@ -103,7 +103,7 @@ const installCli = async () => {
       const upgrade = await vscode.window.showInformationMessage(
         'Installed Stackery CLI must be upgraded to work with this extension. Upgrade the CLI now?',
         { modal: true },
-        'Cancel', 'Ok'
+        'Ok'
       )
 
       if (upgrade !== 'Ok') {
