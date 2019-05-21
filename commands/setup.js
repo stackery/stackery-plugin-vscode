@@ -263,7 +263,14 @@ const login = async () => {
 }
 
 const startDevServer = async () => {
-  const workspace = vscode.workspace.workspaceFolders[0].uri.fsPath
+  const workspace = vscode.workspace.workspaceFolders[0].uri.fsPath || undefined;
+
+  if (!workspace) {
+    await vscode.window.showWarningMessage(
+      'Your template file needs to be in a workspace',
+      { modal: true }
+    );
+  }
 
   return vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
