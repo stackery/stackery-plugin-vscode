@@ -26,10 +26,16 @@ const vscode = require('vscode');
 const setup = require('./setup');
 const stackeryEnv = require('../stackeryEnv');
 
-let localStorage = {};
 let devServer;
 
 module.exports = context => async uri => {
+  const globalState = context.globalState;
+
+  if (!globalState.get('localStorage')) {
+    globalState.update('localStorage', {});
+  }
+
+  let localStorage = globalState.get('localStorage');
   if (!devServer) {
     devServer = await setup();
   }
@@ -78,7 +84,8 @@ iframe.contentWindow.location = "${location}";
         break;
 
       case 'localStorage.clear':
-        localStorage = {};
+        globalState.update('localStorage', {});
+        localStorage = globalState.get('localStorage');
         break;
 
       default:
