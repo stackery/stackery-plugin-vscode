@@ -263,13 +263,14 @@ const login = async () => {
 }
 
 const startDevServer = async () => {
-  const workspace = vscode.workspace ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+  const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined
 
   if (!workspace) {
     await vscode.window.showWarningMessage(
-      'Your template file needs to be in a workspace',
+      'The template file must be opened within a VS Code Workspace',
       { modal: true }
     );
+    throw new Error(`The template file must be opened within a VS Code Workspace`);
   }
 
   return vscode.window.withProgress({
