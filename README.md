@@ -67,7 +67,7 @@ Subscribe compute resources to events emitted by other resources using a __event
 Connect a compute resource (Function, Edge Function, or Docker Task) to another resource using a __service discovery wire__ (dashed wire) to populate the IAM policies and environment variables required for it to interact with that resource, e.g. a __Function__ accessing an __Object Store__.
 
 <!-- ![VS Code clip 2](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif) -->
-<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif" width="600">
+<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif" width="200">
 
 
 ## Workflow Example
