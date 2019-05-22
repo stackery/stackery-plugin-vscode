@@ -4,7 +4,7 @@
 	"description": "Local editing tools for serverless applications",
 	"homepage": "https://www.stackery.io",
 	"icon": "media/icon.png",
-	"version": "1.0.0-alpha.2",
+	"version": "1.0.0-alpha.3",
 	"publisher": "stackery",
 	"engines": {
 		"vscode": "^1.33.0"
