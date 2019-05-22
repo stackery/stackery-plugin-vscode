@@ -3,8 +3,6 @@
 <div align="center">
 </div>
 
-<hr>
-
 Stackery extension for Visual Studio Code. Provides local template and visual editing for serverless applications built using Stackery.
 
 ## Installation
@@ -44,7 +42,8 @@ There are two ways to start using the Stackery visual editor to configure your s
 
 ### Configure resources
 
-![VS Code](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif)
+<!-- ![VS Code](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif) -->
+<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif" width="600">
 
 To configure stack resources:
 
@@ -59,13 +58,17 @@ To configure stack resources:
 
 Subscribe compute resources to events emitted by other resources using a __event subscription wire__ (solid wire), e.g. an __Edge Function__ triggered by a __CDN__ lifecycle event.
 
-![VS Code clip 1](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif)
+<!-- ![VS Code clip 1](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif) -->
+<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif" width="600">
+
 
 ### Service discovery
 
 Connect a compute resource (Function, Edge Function, or Docker Task) to another resource using a __service discovery wire__ (dashed wire) to populate the IAM policies and environment variables required for it to interact with that resource, e.g. a __Function__ accessing an __Object Store__.
 
-![VS Code clip 2](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif)
+<!-- ![VS Code clip 2](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif) -->
+<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif" width="600">
+
 
 ## Workflow Example
 
@@ -103,7 +106,8 @@ stackery create -n simple-serverless-crud -p github --github-org MyUsername --bl
 
 The video below shows steps 4-13:
 
-![VS Code workflow](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif)
+<!-- ![VS Code workflow](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif){:width="400px"} -->
+<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif" width="600">
 
 ## Troubleshooting
 
