@@ -26,10 +26,16 @@ const vscode = require('vscode');
 const setup = require('./setup');
 const stackeryEnv = require('../stackeryEnv');
 
-let localStorage = {};
 let devServer;
 
 module.exports = context => async uri => {
+  const globalState = context.globalState;
+
+  if (!globalState.get('localStorage')) {
+    await globalState.update('localStorage', {});
+  }
+
+  let localStorage = globalState.get('localStorage');
   if (!devServer) {
     devServer = await setup();
   }
@@ -71,26 +77,17 @@ iframe.contentWindow.location = "${location}";
     switch (message.type) {
       case 'localStorage.setItem':
         localStorage[message.key] = message.value;
+        await globalState.update('localStorage', localStorage);
         break;
 
       case 'localStorage.removeItem':
         delete localStorage[message.key];
+        await globalState.update('localStorage', localStorage);
         break;
 
       case 'localStorage.clear':
-        localStorage = {};
-        break;
-
-      case 'clipboard.copy':
-        vscode.env.clipboard.writeText(message.text);
-        break;
-
-      case 'clipboard.paste':
-        const buffer = await vscode.env.clipboard.readText();
-        panel.webview.postMessage({
-          type: 'clipboard.paste.buffer',
-          buffer
-        });
+        await globalState.update('localStorage', {});
+        localStorage = globalState.get('localStorage');
         break;
 
       default:

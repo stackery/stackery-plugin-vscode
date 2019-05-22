@@ -97,13 +97,13 @@ const installCli = async () => {
       errorMessagePrefix: 'Failed to get current version of Stackery CLI, skipping version check.'
     });
 
-    version = version.replace(/-beta.*$/, '');
+    version = version.trim().replace(/-beta.*$/, '');
 
     if (!version || !semver.satisfies(version, '>=2.8.0')) {
       const upgrade = await vscode.window.showInformationMessage(
         'Installed Stackery CLI must be upgraded to work with this extension. Upgrade the CLI now?',
         { modal: true },
-        'Cancel', 'Ok'
+        'Ok'
       )
 
       if (upgrade !== 'Ok') {
