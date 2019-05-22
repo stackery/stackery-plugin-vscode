@@ -152,7 +152,16 @@ function cliDownloadPath () {
 }
 
 const startDevServer = async () => {
-  const workspace = vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+  const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined
+
+  if (!workspace) {
+    await vscode.window.showWarningMessage(
+      'The template file must be opened within a VS Code Workspace',
+      { modal: true }
+    );
+    throw new Error(`The template file must be opened within a VS Code Workspace`);
+  }
 
   return vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
