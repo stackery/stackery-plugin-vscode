@@ -95,8 +95,8 @@ const installCli = async () => {
 
     if (!version || !semver.satisfies(version, '>=2.8.0')) {
       await cli({
-        args: [ 'upgrade' ],
-        errorMessagePrefix: 'Run `stackery upgrade` to upgrade the Stackery CLI.',
+        args: [ 'update' ],
+        errorMessagePrefix: 'Run `stackery update` to update the Stackery CLI.',
         throwOnFailure: true
       });
     }
@@ -152,8 +152,7 @@ function cliDownloadPath () {
 }
 
 const startDevServer = async () => {
-
-  const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined
+  const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
   if (!workspace) {
     await vscode.window.showWarningMessage(
@@ -202,7 +201,7 @@ const startDevServer = async () => {
       devServerProcess.on('exit', async code => {
         const stderr = stderrChunks.join('');
         await vscode.window.showErrorMessage(`Failed to start Stackery dev-server\n\n${stderr}`);
-        reject(`Failed to start Stackery dev-server\n\n${stderr}`);
+        reject(new Error(`Failed to start Stackery dev-server\n\n${stderr}`));
       });
 
       const portChunks = [];
