@@ -1,5 +1,5 @@
-<h1 align="center"><img src="./media/icon.png" alt="Logo" height="128" /></h1>
-<h2 align="center">Stackery for VSCode</h2>
+<h1 align="center"><img src="https://s3-us-west-2.amazonaws.com/vscode-readme/img/icon.png" alt="Logo" height="128" /></h1>
+<h2 align="center">Stackery Serverless Tools</h2>
 <div align="center">
 
   [![Latest Release](https://vsmarketplacebadge.apphb.com/version-short/kumar-harsh.graphql-for-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
@@ -31,7 +31,7 @@ Stackery extension for Visual Studio Code. Provides local template and visual ed
 
 The Stackery extension allows you to visualize and configure the AWS resources defined in your `template.yaml` or `serverless.yml` file. Configuring a resource using the Stackery visual editor renders the appropriate YAML in the `template.yaml` or `serverless.yml` file.
 
-![stackery-vscode-split-screen](media/readme/split-screen.png)
+![stackery-vscode-split-screen](https://s3-us-west-2.amazonaws.com/vscode-readme/img/split-screen-1.png)
 
 ### Visual Editing
 
@@ -39,23 +39,17 @@ There are two ways to start using the Stackery visual editor to configure your s
 
 1. Right-click on `template.yaml` to access the context menu, and select __Open in Stackery__
 
-    ![right-click-screenshot](media/readme/right-click-screenshot.png)
+    ![right-click-screenshot](https://s3-us-west-2.amazonaws.com/vscode-readme/img/right-click-screenshot-1.png)
 
     __or__
 
 2. While in the `template.yaml` file, select the Stackery logo on the top-right corner of the window
 
-    ![stackery-button-screenshot](media/readme/logo-button-screenshot.png)
+    ![stackery-button-screenshot](https://s3-us-west-2.amazonaws.com/vscode-readme/img/logo-button-screenshot-1.png)
 
 ### Configure resources
 
-<div>
-  <video width="100%" height="100%" playsinline autoplay muted loop controls>
-    <source src="/media/video/vscode.mp4" type="video/mp4">
-    <source src="/media/video/vscode.webm" type="video/webm">
-    <source src="/media/video/vscode.ogg" type="video/ogg"> Your browser does not support the video tag.
-  </video>
-</div>
+![VS Code](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif)
 
 To configure stack resources:
 
@@ -70,25 +64,13 @@ To configure stack resources:
 
 Subscribe compute resources to events emitted by other resources using a __event subscription wire__ (solid wire), e.g. an __Edge Function__ triggered by a __CDN__ lifecycle event.
 
-<div>
-  <video width="100%" height="100%" playsinline autoplay muted loop controls>
-    <source src="/media/video/vscode-clip1.mp4" type="video/mp4">
-    <source src="/media/video/vscode-clip1.webm" type="video/webm">
-    <source src="/media/video/vscode-clip1.ogg" type="video/ogg"> Your browser does not support the video tag.
-  </video>
-</div>
+![VS Code clip 1](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif)
 
 ### Service discovery
 
 Connect a compute resource (Function, Edge Function, or Docker Task) to another resource using a __service discovery wire__ (dashed wire) to populate the IAM policies and environment variables required for it to interact with that resource, e.g. a __Function__ accessing an __Object Store__.
 
-<div>
-  <video width="100%" height="100%" playsinline autoplay muted loop controls>
-    <source src="/media/video/vscode-clip2.mp4" type="video/mp4">
-    <source src="/media/video/vscode-clip2.webm" type="video/webm">
-    <source src="/media/video/vscode-clip2.ogg" type="video/ogg"> Your browser does not support the video tag.
-  </video>
-</div>
+![VS Code clip 2](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif)
 
 ## Workflow Example
 
@@ -102,21 +84,20 @@ stackery create -n simple-serverless-crud -p github --github-org MyUsername --bl
 2. Clone your stack from your Git provider
 3. In VS Code, select __Add workspace folder__ from the menu or welcome screen
 
-    ![open workspace folder](media/readme/open-workspace.png)
+    ![open workspace folder](https://s3-us-west-2.amazonaws.com/vscode-readme/img/open-workspace.png)
 
 4. Open the `template.yaml` file from the sidebar
 5. Click the Stackery icon in the top right corner
 
-    ![open template.yaml](media/readme/open-template.png)
-
+    ![open template.yaml](https://s3-us-west-2.amazonaws.com/vscode-readme/img/open-template.png)
 
 6. The first time you use the Stackery extension in a new workspace in VS Code, you will be prompted to log in to Stackery. Use the same username and password you would use in the app
 
-    ![open template.yaml](media/readme/login.png)
+    ![login](https://s3-us-west-2.amazonaws.com/vscode-readme/img/login.png)
 
 7. (Optional) Pull your template to the side of the visual editor if you want a side-by-side view
 
-    ![side-by-side view](media/readme/view.png)
+    ![side-by-side view](https://s3-us-west-2.amazonaws.com/vscode-readme/img/view.png)
 
 8.  Click the __Add Resource__ button in the top right of the visual editor
 9.  Click the __Function__ resource to add it to the editor _(you will see the relevant code added to the `template.yaml` file as you use the visual editor)_
@@ -127,19 +108,13 @@ stackery create -n simple-serverless-crud -p github --github-org MyUsername --bl
 
 The video below shows steps 4-13:
 
-<div>
-  <video width="100%" height="100%" playsinline autoplay muted loop controls>
-    <source src="/media/video/vscode-workflow.mp4" type="video/mp4">
-    <source src="/media/video/vscode-workflow.webm" type="video/webm">
-    <source src="/media/video/vscode-workflow.ogg" type="video/ogg"> Your browser does not support the video tag.
-  </video>
-</div>
+![VS Code workflow](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif)
 
 ## Troubleshooting
 
 ### Missing Stackery CLI or CLI out of date
 
-In order to use the Stackery VS Code extension, you need to have the [Stackery CLI](using-stackery/cli.md) installed and updated to at least version 2.8.0. Check your version by entering `stackery version` in your the terminal or shell. If you need to update, run `stackery update`, then try the extension again.
+In order to use the Stackery VS Code extension, you need to have the [Stackery CLI](https://docs.stackery.io/docs/using-stackery/cli/) installed and updated to at least version 2.8.0. Check your version by entering `stackery version` in your the terminal or shell. If you need to update, run `stackery update`, then try the extension again.
 
 ### Template file is not being updated
 
