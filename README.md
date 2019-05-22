@@ -1,11 +1,6 @@
 <h1 align="center"><img src="https://s3-us-west-2.amazonaws.com/vscode-readme/img/icon.png" alt="Logo" height="128" /></h1>
 <h2 align="center">Stackery Serverless Tools</h2>
 <div align="center">
-
-  [![Latest Release](https://vsmarketplacebadge.apphb.com/version-short/kumar-harsh.graphql-for-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
-  [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/kumar-harsh.graphql-for-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
-  [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/kumar-harsh.graphql-for-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=kumar-harsh.graphql-for-vscode)
-
 </div>
 
 <hr>
