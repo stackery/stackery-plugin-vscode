@@ -153,6 +153,7 @@ function cliDownloadPath () {
 
 const startDevServer = async () => {
   const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+  const secret = Math.random().toString(36).toUpperCase().substring(2, 8);
 
   if (!workspace) {
     await vscode.window.showWarningMessage(
@@ -174,7 +175,7 @@ const startDevServer = async () => {
       // TODO - switch to shared secret auth once available
       const devServerProcess = spawn(
         'stackery',
-        [ 'dev-server', '--disable-auth', '--workspace', workspace ],
+        [ 'dev-server', '--from-plugin', '--secret', secret, '--workspace', workspace ],
         {
           env: {
             ...process.env,
@@ -211,7 +212,8 @@ const startDevServer = async () => {
         console.log(`Stackery dev-server started on port ${port}`);
         resolve({
           process: devServerProcess,
-          port
+          port,
+          secret
         });
       });
     });

@@ -58,7 +58,7 @@ module.exports = context => async uri => {
 
   const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
 
-  let location = editorURL() + `?templatepath=${encodeURIComponent(templatepath)}&port=${devServer.port}`;
+  let location = editorURL() + `?templatepath=${encodeURIComponent(templatepath)}&port=${devServer.port}&secret=${devServer.secret}`;
   if (Object.keys(localStorage).length > 0) {
     location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
   }
