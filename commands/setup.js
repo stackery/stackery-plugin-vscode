@@ -93,13 +93,19 @@ const installCli = async () => {
     }
 
     try {
-      await new Promise((resolve, reject) =>
-        request.get(cliDownloadPath(), { followRedirect: true })
-          .on('error', err => reject(err))
-          .pipe(zlib.createGunzip())
-          .pipe(fs.createWriteStream('/usr/local/bin/stackery'))
-          .on('finish', resolve)
-      );
+      await vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: 'Installing Stackery CLI to /usr/local/bin/stackery'
+      }, progress => {
+        progress.report({ increment: 33 });
+        return new Promise((resolve, reject) =>
+          request.get(cliDownloadPath(), { followRedirect: true })
+            .on('error', err => reject(err))
+            .pipe(zlib.createGunzip())
+            .pipe(fs.createWriteStream('/usr/local/bin/stackery'))
+            .on('finish', resolve)
+        );
+      });
     } catch (err) {
       warnAndStop();
       await vscode.window.showWarningMessage('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
@@ -115,8 +121,6 @@ const installCli = async () => {
     } catch (err) {
       errorAndStop('Failed to make Stackery CLI executable (/usr/local/bin/stackery). Please resolve this issue then try again.');
     }
-
-    console.log('Successfully installed Stackery CLI to /usr/local/bin');
   }
 
   let { stdout: version } = await cli({
@@ -128,7 +132,7 @@ const installCli = async () => {
 
   if (!version || !semver.satisfies(version, '>=2.8.0')) {
     await cli({
-      args: [ 'update' ],
+      args: ['update', '--beta'],
       errorMessagePrefix: 'Run `stackery update` to update the Stackery CLI.',
       throwOnFailure: true
     });
@@ -186,6 +190,7 @@ const startDevServer = async () => {
           ]
         }
       );
+      setTimeout(() => { reject(new Error('Timed out attempting to access project files')); }, 5000);
 
       devServerProcess.on('error', async err => {
         startingIndicator.hide();
