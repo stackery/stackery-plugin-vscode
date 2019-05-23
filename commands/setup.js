@@ -85,56 +85,58 @@ const cli = async ({ args, errorMessagePrefix, throwOnFailure }) => {
 const installCli = async () => {
   const hasCli = await new Promise(resolve => hasbin('stackery', resolve));
 
-  if (hasCli) {
-    let { stdout: version } = await cli({
-      args: [ 'version' ],
-      errorMessagePrefix: 'Failed to get current version of Stackery CLI, skipping version check.'
-    });
-
-    version = version.trim().replace(/-beta.*$/, '');
-
-    if (!version || !semver.satisfies(version, '>=2.8.0')) {
-      await cli({
-        args: [ 'update' ],
-        errorMessagePrefix: 'Run `stackery update` to update the Stackery CLI.',
-        throwOnFailure: true
-      });
+  if (!hasCli) {
+    try {
+      fs.accessSync('/usr/local/bin', fs.constants.W_OK | fs.constants.X_OK);
+    } catch (err) {
+      warnAndStop('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
     }
 
-    return;
+    try {
+      await vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: 'Installing Stackery CLI to /usr/local/bin/stackery'
+      }, progress => {
+        progress.report({ increment: 33 });
+        return new Promise((resolve, reject) =>
+          request.get(cliDownloadPath(), { followRedirect: true })
+            .on('error', err => reject(err))
+            .pipe(zlib.createGunzip())
+            .pipe(fs.createWriteStream('/usr/local/bin/stackery'))
+            .on('finish', resolve)
+        );
+      });
+    } catch (err) {
+      warnAndStop();
+      await vscode.window.showWarningMessage('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
+    }
+
+    try {
+      fs.chmodSync(
+        '/usr/local/bin/stackery',
+        fs.constants.S_IRUSR | fs.constants.S_IRGRP | fs.constants.S_IROTH |
+        fs.constants.S_IWUSR |
+        fs.constants.S_IXUSR | fs.constants.S_IXGRP | fs.constants.S_IXOTH
+      );
+    } catch (err) {
+      errorAndStop('Failed to make Stackery CLI executable (/usr/local/bin/stackery). Please resolve this issue then try again.');
+    }
   }
 
-  try {
-    fs.accessSync('/usr/local/bin', fs.constants.W_OK | fs.constants.X_OK);
-  } catch (err) {
-    warnAndStop('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
-  }
+  let { stdout: version } = await cli({
+    args: [ 'version' ],
+    errorMessagePrefix: 'Failed to get current version of Stackery CLI, skipping version check.'
+  });
 
-  try {
-    await new Promise((resolve, reject) =>
-      request.get(cliDownloadPath(), { followRedirect: true })
-        .on('error', err => reject(err))
-        .pipe(zlib.createGunzip())
-        .pipe(fs.createWriteStream('/usr/local/bin/stackery'))
-        .on('finish', resolve)
-    );
-  } catch (err) {
-    warnAndStop();
-    await vscode.window.showWarningMessage('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
-  }
+  version = version.trim().replace(/-beta.*$/, '');
 
-  try {
-    fs.chmodSync(
-      '/usr/local/bin/stackery',
-      fs.constants.S_IRUSR | fs.constants.S_IRGRP | fs.constants.S_IROTH |
-      fs.constants.S_IWUSR |
-      fs.constants.S_IXUSR | fs.constants.S_IXGRP | fs.constants.S_IXOTH
-    );
-  } catch (err) {
-    errorAndStop('Failed to make Stackery CLI executable (/usr/local/bin/stackery). Please resolve this issue then try again.');
+  if (!version || !semver.satisfies(version, '>=2.8.0')) {
+    await cli({
+      args: ['update', '--beta'],
+      errorMessagePrefix: 'Run `stackery update` to update the Stackery CLI.',
+      throwOnFailure: true
+    });
   }
-
-  console.log('Successfully installed Stackery CLI to /usr/local/bin');
 };
 
 const DOWNLOAD_PREFIX = 'https://ga.cli.stackery.io';
@@ -162,9 +164,9 @@ const startDevServer = async () => {
     throw new Error(`The template file must be opened within a VS Code Workspace`);
   }
 
-  return vscode.window.withProgress({
+  const startingIndicator = vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
-    title: 'Loading Stackery files...'
+    title: 'Loading project files...'
   },
   progress => {
     progress.report({ increment: 33 });
@@ -188,6 +190,7 @@ const startDevServer = async () => {
           ]
         }
       );
+      setTimeout(() => { reject(new Error('Timed out attempting to access project files')); }, 5000);
 
       devServerProcess.on('error', async err => {
         startingIndicator.hide();
@@ -216,4 +219,5 @@ const startDevServer = async () => {
       });
     });
   });
+  return startingIndicator;
 };
