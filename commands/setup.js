@@ -132,7 +132,7 @@ const installCli = async () => {
 
   if (!version || !semver.satisfies(version, '>=2.8.0')) {
     await cli({
-      args: ['update', '--beta'],
+      args: ['update'],
       errorMessagePrefix: 'Run `stackery update` to update the Stackery CLI.',
       throwOnFailure: true
     });
