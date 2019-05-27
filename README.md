@@ -20,6 +20,13 @@ Stackery extension for Visual Studio Code. Provides local template and visual ed
 * Visualization of stack architecture
 * Integration with the Stackery CLI for deployments and cloudlocal function development
 
+## Prerequisites
+
+To use the Stackery VS Code Extension you'll need:
+
+* A <a href="https://app.stackery.io/sign-up" target="_blank">free Stackery developer account</a>.
+* One or more AWS Accounts to deploy your serverless applications into.
+
 ## Usage
 
 The Stackery extension allows you to visualize and configure the AWS resources defined in your `template.yaml` or `serverless.yml` file. Configuring a resource using the Stackery visual editor renders the appropriate YAML in the `template.yaml` or `serverless.yml` file.
