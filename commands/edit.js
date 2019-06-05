@@ -29,6 +29,8 @@ const stackeryEnv = require('../stackeryEnv');
 let devServer;
 
 module.exports = context => async uri => {
+  uri = uri || vscode.window.activeTextEditor.document.uri;
+
   const globalState = context.globalState;
 
   if (!globalState.get('localStorage')) {
