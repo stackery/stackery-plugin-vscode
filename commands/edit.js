@@ -42,6 +42,14 @@ module.exports = context => async uri => {
     devServer = await setup();
   }
 
+  const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
+
+  if (templatepath.startsWith('..')) {
+    vscode.window.showErrorMessage('The template must reside within the current VS Code workspace. Please open a workspace that includes the template in order to edit it.', { modal: true });
+
+    return;
+  }
+
   const panel = vscode.window.createWebviewPanel(
     'stackery.edit',
     path.basename(uri.path),
@@ -57,8 +65,6 @@ module.exports = context => async uri => {
     light: vscode.Uri.file(path.join(context.extensionPath, 'media', 'stackery-navy.svg')),
     dark: vscode.Uri.file(path.join(context.extensionPath, 'media', 'stackery-teal.svg'))
   };
-
-  const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
 
   let location = editorURL() + `?templatepath=${encodeURIComponent(templatepath)}&port=${devServer.port}&secret=${devServer.secret}`;
   if (Object.keys(localStorage).length > 0) {
