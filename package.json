@@ -42,6 +42,12 @@
 			}
 		],
 		"menus": {
+			"commandPalette": [
+				{
+					"command": "extension.edit",
+					"when": "editorLangId == yaml"
+				}
+			],
 			"editor/title": [
 				{
 					"command": "extension.edit",
