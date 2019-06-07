@@ -83,9 +83,16 @@ const cli = async ({ args, errorMessagePrefix, throwOnFailure }) => {
 };
 
 const installCli = async () => {
+  const installMsg = 'Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.';
   const hasCli = await new Promise(resolve => hasbin('stackery', resolve));
 
   if (!hasCli) {
+    // We wouldn't know where to install a windows binary
+    if (os.type() === 'Windows_NT') {
+      errorAndStop(installMsg);
+      return;
+    }
+
     try {
       fs.accessSync('/usr/local/bin', fs.constants.W_OK | fs.constants.X_OK);
     } catch (err) {
@@ -108,7 +115,7 @@ const installCli = async () => {
       });
     } catch (err) {
       warnAndStop();
-      await vscode.window.showWarningMessage('Missing Stackery CLI. You can find installation instructions at https://docs.stackery.io/docs/using-stackery/cli/#install-the-cli.');
+      await vscode.window.showWarningMessage(installMsg);
     }
 
     try {
@@ -174,7 +181,6 @@ const startDevServer = async () => {
     return new Promise((resolve, reject) => {
       console.log(`Starting dev-server for workspace ${workspace}`);
 
-      // TODO - switch to shared secret auth once available
       const devServerProcess = spawn(
         'stackery',
         [ 'dev-server', '--from-plugin', '--secret', secret, '--workspace', workspace ],
@@ -187,7 +193,7 @@ const startDevServer = async () => {
             'pipe', // stdin
             'pipe', // stdout
             'pipe', // stderr
-            'pipe' // dev-server reports the port it opened on fd 3
+            'pipe' // for port on linux
           ]
         }
       );
@@ -208,9 +214,13 @@ const startDevServer = async () => {
         reject(new Error(`Failed to start Stackery dev-server\n\n${stderr}`));
       });
 
+      // On linux we read the dev-server's port number from fd 3, but on windows
+      // the handle for fd 3 isn't passed to the child process so we use stdout instead.
+      const portReadFd = process.platform === 'win32' ? 1 : 3;
+
       const portChunks = [];
-      devServerProcess.stdio[3].on('data', chunk => portChunks.push(chunk));
-      devServerProcess.stdio[3].on('end', () => {
+      devServerProcess.stdio[portReadFd].on('data', chunk => portChunks.push(chunk));
+      devServerProcess.stdio[portReadFd].on('end', () => {
         const port = Number(portChunks.join());
         console.log(`Stackery dev-server started on port ${port}`);
         resolve({
