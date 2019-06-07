@@ -181,7 +181,6 @@ const startDevServer = async () => {
     return new Promise((resolve, reject) => {
       console.log(`Starting dev-server for workspace ${workspace}`);
 
-      // TODO - switch to shared secret auth once available
       const devServerProcess = spawn(
         'stackery',
         [ 'dev-server', '--from-plugin', '--secret', secret, '--workspace', workspace ],
@@ -193,7 +192,8 @@ const startDevServer = async () => {
           stdio: [
             'pipe', // stdin
             'pipe', // stdout
-            'pipe' // stderr
+            'pipe', // stderr
+            'pipe' // for port on linux
           ]
         }
       );
@@ -214,9 +214,13 @@ const startDevServer = async () => {
         reject(new Error(`Failed to start Stackery dev-server\n\n${stderr}`));
       });
 
+      // On linux we read the dev-server's port number from fd 3, but on windows
+      // the handle for fd 3 isn't passed to the child process so we use stdout instead.
+      const portReadFd = process.platform === 'win32' ? 1 : 3;
+
       const portChunks = [];
-      devServerProcess.stdio[1].on('data', chunk => portChunks.push(chunk));
-      devServerProcess.stdio[1].on('end', () => {
+      devServerProcess.stdio[portReadFd].on('data', chunk => portChunks.push(chunk));
+      devServerProcess.stdio[portReadFd].on('end', () => {
         const port = Number(portChunks.join());
         console.log(`Stackery dev-server started on port ${port}`);
         resolve({
