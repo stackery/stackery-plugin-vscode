@@ -42,9 +42,18 @@ module.exports = context => async uri => {
     devServer = await setup();
   }
 
-  const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
+  // Is the template within some workspace folder?
+  let within = false;
+  let templatepath;
 
-  if (templatepath.startsWith('..')) {
+  for (const folder of vscode.workspace.workspaceFolders) {
+    templatepath = path.relative(folder.uri.fsPath, uri.fsPath);
+    if (!templatepath.startsWith('..')) {
+      within = true;
+      break;
+    }
+  }
+  if (!within) {
     vscode.window.showErrorMessage('The template must reside within the current VS Code workspace. Please open a workspace that includes the template in order to edit it.', { modal: true });
 
     return;
