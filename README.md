@@ -35,6 +35,8 @@ The Stackery extension allows you to visualize and configure the AWS resources d
 
 ### Visual Editing
 
+> There is currently a [known focusing bug in VS Code](https://github.com/microsoft/vscode/issues/76863) that may cause problems with switching from the template view to the editor view in the Stackery Serverless Tools extension. If at any point you are unable to type or interact with the canvas while using the extension, double-click on the canvas tab to restore focus, then try again.
+
 There are two ways to start using the Stackery visual editor to configure your stack resources:
 
 1. Right-click on `template.yaml` to access the context menu, and select __Open in Stackery__
