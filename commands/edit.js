@@ -85,7 +85,6 @@ module.exports = context => async uri => {
     path.basename(uri.path),
     vscode.ViewColumn.One,
     {
-      retainContextWhenHidden: true,
       enableScripts: true,
       localResourceRoots: []
     }
@@ -101,8 +100,8 @@ module.exports = context => async uri => {
     location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
   }
 
-  panel.webview.html =
-`<script>
+  const getHTML = () => {
+    return `<script>
 const iframe = top.document.getElementsByTagName('iframe')[0];
 
 iframe.setAttribute('id', 'active-frame');
@@ -110,9 +109,17 @@ iframe.style.visibility = "visible";
 iframe.contentWindow.focus();
 iframe.contentWindow.location = "${location}";
 </script>`;
+  };
+  panel.webview.html = getHTML();
+  panel.onDidChangeViewState(async message => {
+    panel.webview.html = getHTML();
+  });
 
   panel.webview.onDidReceiveMessage(async message => {
     switch (message.type) {
+      case 'location.href':
+        location = message.href;
+        break;
       case 'localStorage.setItem':
         localStorage[message.key] = message.value;
         await globalState.update('localStorage', localStorage);

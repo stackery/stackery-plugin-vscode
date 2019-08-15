@@ -3,7 +3,8 @@
 <div align="center">
 </div>
 
-Stackery extension for Visual Studio Code. Provides local template and visual editing for serverless applications built using Stackery.
+
+Stackery extension for Visual Studio Code. Provides local debugging and development of any AWS Lambda function as well as template and visual editing for building, deploying, and managing serverless applications with Stackery. 
 
 ## Installation
 
@@ -13,6 +14,9 @@ Stackery extension for Visual Studio Code. Provides local template and visual ed
 
 ## Features
 
+* Local development of any AWS Lambda function against any cloudformation configurable AWS resource
+  * Any framework
+  * Any language
 * Visual Editing of infrastructure-as-code templates, including:
   * AWS CloudFormation templates
   * AWS SAM (Serverless Application Model)
@@ -24,8 +28,15 @@ Stackery extension for Visual Studio Code. Provides local template and visual ed
 
 To use the Stackery VS Code Extension you'll need:
 
-* A <a href="https://app.stackery.io/sign-up?utm=vscodemarketplace" target="_blank">free Stackery developer account</a>.
 * One or more AWS Accounts to deploy your serverless applications into.
+* The ARN of existing AWS Lambdas for local debugging
+
+For additional services, a free Stackery account gets you:
+
+* CLI triggered deployment
+* Deployment customization hooks
+* Manage deployed stacks from a central dashboard
+* Integrated parameters and secrets management
 
 ## Usage
 
