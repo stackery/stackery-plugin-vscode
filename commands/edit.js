@@ -55,7 +55,6 @@ module.exports = context => async uri => {
     path.basename(uri.path),
     vscode.ViewColumn.One,
     {
-      retainContextWhenHidden: true,
       enableScripts: true,
       localResourceRoots: []
     }
