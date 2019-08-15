@@ -1,7 +1,7 @@
 {
 	"name": "stackery",
 	"displayName": "Stackery Serverless Tools",
-	"description": "Local editing tools for serverless applications",
+	"description": "CloudFormation architecture editing + local debugging and development of any AWS Lambda function",
 	"homepage": "https://www.stackery.io",
 	"icon": "media/icon.png",
 	"version": "1.0.3",
