@@ -79,9 +79,24 @@ iframe.style.visibility = "visible";
 iframe.contentWindow.focus();
 iframe.contentWindow.location = "${location}";
 </script>`;
+  panel.onDidChangeViewState(async message => {
+    console.log('foo');
+    panel.webview.html =
+      `<script>
+const iframe = top.document.getElementsByTagName('iframe')[0];
+
+iframe.setAttribute('id', 'active-frame');
+iframe.style.visibility = "visible";
+iframe.contentWindow.focus();
+iframe.contentWindow.location = "${location}";
+</script>`;
+  });
 
   panel.webview.onDidReceiveMessage(async message => {
     switch (message.type) {
+      case 'location.href':
+        location = message.href;
+        break;
       case 'localStorage.setItem':
         localStorage[message.key] = message.value;
         await globalState.update('localStorage', localStorage);
