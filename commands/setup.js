@@ -32,7 +32,7 @@ const vscode = require('vscode');
 const stackeryEnv = require('../stackeryEnv');
 
 /**
- * @typedef {Object} DevServer
+ * @typedef {Array} DevServers
  * @property {Object} process - Node.js child process
  * @property {Number} port - Server port
  */
@@ -42,9 +42,9 @@ const stackeryEnv = require('../stackeryEnv');
  *
  * @returns {DevServer} - Dev server instance
  */
-module.exports = async () => {
+const setup = async () => {
   await installCli();
-  return startDevServer();
+  return startDevServers();
 };
 
 const warnAndStop = message => {
@@ -160,11 +160,10 @@ function cliDownloadPath () {
   }
 }
 
-const startDevServer = async () => {
-  const workspace = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
-  const secret = Math.random().toString(36).toUpperCase().substring(2, 8);
+const startDevServers = async () => {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
 
-  if (!workspace) {
+  if (!workspaceFolders || workspaceFolders.length === 0) {
     await vscode.window.showWarningMessage(
       'The template file must be opened within a VS Code Workspace',
       { modal: true }
@@ -178,58 +177,71 @@ const startDevServer = async () => {
   },
   progress => {
     progress.report({ increment: 33 });
-    return new Promise((resolve, reject) => {
-      console.log(`Starting dev-server for workspace ${workspace}`);
-
-      const devServerProcess = spawn(
-        'stackery',
-        [ 'dev-server', '--from-plugin', '--secret', secret, '--workspace', workspace ],
-        {
-          env: {
-            ...process.env,
-            ...stackeryEnv()
-          },
-          stdio: [
-            'pipe', // stdin
-            'pipe', // stdout
-            'pipe', // stderr
-            'pipe' // for port on linux
-          ]
-        }
-      );
-      setTimeout(() => { reject(new Error('Timed out attempting to access project files')); }, 5000);
-
-      devServerProcess.on('error', async err => {
-        startingIndicator.hide();
-        await vscode.window.showErrorMessage(`Failed to start Stackery dev-server\n\n${err.message}`);
-        reject(new Error(`Failed to start Stackery dev-server\n\n${err.message}`));
-      });
-
-      const stderrChunks = [];
-      devServerProcess.stderr.on('data', chunk => stderrChunks.push(chunk));
-
-      devServerProcess.on('exit', async code => {
-        const stderr = stderrChunks.join('');
-        await vscode.window.showErrorMessage(`Failed to start Stackery dev-server\n\n${stderr}`);
-        reject(new Error(`Failed to start Stackery dev-server\n\n${stderr}`));
-      });
-
-      // On linux we read the dev-server's port number from fd 3, but on windows
-      // the handle for fd 3 isn't passed to the child process so we use stdout instead.
-      const portReadFd = process.platform === 'win32' ? 1 : 3;
-
-      const portChunks = [];
-      devServerProcess.stdio[portReadFd].on('data', chunk => portChunks.push(chunk));
-      devServerProcess.stdio[portReadFd].on('end', () => {
-        const port = Number(portChunks.join());
-        console.log(`Stackery dev-server started on port ${port}`);
-        resolve({
-          process: devServerProcess,
-          port,
-          secret
-        });
-      });
-    });
+    const promises = [];
+    for (const workspaceFolder of workspaceFolders) {
+      promises.push(startDevServer(workspaceFolder.uri.fsPath));
+    }
+    return Promise.all(promises);
   });
   return startingIndicator;
 };
+
+// Start a dev server for a given folder in the workspace.
+const startDevServer = (folder) => {
+  return new Promise((resolve, reject) => {
+    const secret = Math.random().toString(36).toUpperCase().substring(2, 8);
+
+    const devServerProcess = spawn(
+      'stackery',
+      [ 'dev-server', '--from-plugin', '--secret', secret, '--workspace', folder ],
+      {
+        env: {
+          ...process.env,
+          ...stackeryEnv()
+        },
+        stdio: [
+          'pipe', // stdin
+          'pipe', // stdout
+          'pipe', // stderr
+          'pipe' // for port on linux
+        ]
+      }
+    );
+
+    setTimeout(() => reject(new Error('Timed out attempting to access project files')), 5000);
+
+    devServerProcess.on('error', async err => {
+      await vscode.window.showErrorMessage(`Failed to start Stackery dev-server\n\n${err.message}`);
+      reject(new Error(`Failed to start Stackery dev-server\n\n${err.message}`));
+    });
+
+    const stderrChunks = [];
+    devServerProcess.stderr.on('data', chunk => stderrChunks.push(chunk));
+
+    devServerProcess.on('exit', async code => {
+      const stderr = stderrChunks.join('');
+      await vscode.window.showErrorMessage(`Failed to start Stackery dev-server\n\n${stderr}`);
+      reject(new Error(`Failed to start Stackery dev-server\n\n${stderr}`));
+    });
+
+    // On linux we read the dev-server's port number from fd 3, but on windows
+    // the handle for fd 3 isn't passed to the child process so we use stdout instead.
+    const portReadFd = process.platform === 'win32' ? 1 : 3;
+
+    const portChunks = [];
+    devServerProcess.stdio[portReadFd].on('data', chunk => portChunks.push(chunk));
+    devServerProcess.stdio[portReadFd].on('end', () => {
+      const port = Number(portChunks.join());
+      console.log(`Stackery dev-server for ${folder} started on port ${port}`);
+
+      resolve({
+        process: devServerProcess,
+        port,
+        secret,
+        folder
+      });
+    });
+  });
+};
+
+module.exports = { setup, startDevServer };

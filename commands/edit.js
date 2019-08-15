@@ -23,10 +23,10 @@ const path = require('path');
 
 const vscode = require('vscode');
 
-const setup = require('./setup');
+const { setup, startDevServer } = require('./setup');
 const stackeryEnv = require('../stackeryEnv');
 
-let devServer;
+let devServers;
 
 module.exports = context => async uri => {
   uri = uri || vscode.window.activeTextEditor.document.uri;
@@ -38,16 +38,46 @@ module.exports = context => async uri => {
   }
 
   let localStorage = globalState.get('localStorage');
-  if (!devServer) {
-    devServer = await setup();
+  if (!devServers) {
+    devServers = await setup();
   }
 
-  const templatepath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath);
+  // Is the template within some workspace folder?
+  let within = false;
+  let templatepath;
 
-  if (templatepath.startsWith('..')) {
+  for (const folder of vscode.workspace.workspaceFolders) {
+    templatepath = path.relative(folder.uri.fsPath, uri.fsPath);
+    if (!templatepath.startsWith('..')) {
+      within = true;
+      break;
+    }
+  }
+  if (!within) {
     vscode.window.showErrorMessage('The template must reside within the current VS Code workspace. Please open a workspace that includes the template in order to edit it.', { modal: true });
-
     return;
+  }
+
+  let devServer;
+  for (const server of devServers) {
+    const relativePath = path.relative(server.folder, uri.fsPath);
+    if (!relativePath.startsWith('..')) {
+      devServer = server;
+      break;
+    }
+  }
+
+  // If there's no dev server for this workspace folder, create one
+  if (!devServer) {
+    devServer = await vscode.windows.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: `Loading project files....`
+    },
+    progress => {
+      progress.report({ increment: 33 });
+      return startDevServer(path.dirname(uri.fsPath));
+    });
+    devServers.push(devServer);
   }
 
   const panel = vscode.window.createWebviewPanel(
