@@ -70,8 +70,8 @@ module.exports = context => async uri => {
     location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
   }
 
-  panel.webview.html =
-`<script>
+  const getHTML = () => {
+    return `<script>
 const iframe = top.document.getElementsByTagName('iframe')[0];
 
 iframe.setAttribute('id', 'active-frame');
@@ -79,17 +79,10 @@ iframe.style.visibility = "visible";
 iframe.contentWindow.focus();
 iframe.contentWindow.location = "${location}";
 </script>`;
+  };
+  panel.webview.html = getHTML();
   panel.onDidChangeViewState(async message => {
-    console.log('foo');
-    panel.webview.html =
-      `<script>
-const iframe = top.document.getElementsByTagName('iframe')[0];
-
-iframe.setAttribute('id', 'active-frame');
-iframe.style.visibility = "visible";
-iframe.contentWindow.focus();
-iframe.contentWindow.location = "${location}";
-</script>`;
+    panel.webview.html = getHTML();
   });
 
   panel.webview.onDidReceiveMessage(async message => {
