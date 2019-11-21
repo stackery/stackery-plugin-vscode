@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.7
+- Keep canvas contents when switching tabs
+
 ## 1.0.2
 - Open current text file if running edit command from command palette
 - Only show edit command in command palette if current text file is a template
