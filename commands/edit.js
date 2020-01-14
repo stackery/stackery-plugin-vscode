@@ -44,11 +44,11 @@ module.exports = context => async uri => {
 
   // Is the template within some workspace folder?
   let within = false;
-  let templatepath;
+  let templatePath;
 
   for (const folder of vscode.workspace.workspaceFolders) {
-    templatepath = path.relative(folder.uri.fsPath, uri.fsPath);
-    if (!templatepath.startsWith('..')) {
+    templatePath = path.relative(folder.uri.fsPath, uri.fsPath);
+    if (!templatePath.startsWith('..')) {
       within = true;
       break;
     }
