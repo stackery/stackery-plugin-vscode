@@ -97,7 +97,7 @@ module.exports = context => async uri => {
   };
 
   const templateDir = path.relative(devServer.folder, path.dirname(uri.path));
-  let location = editorURL() + `?templatepath=${encodeURIComponent(templatePath)}&templateDir=${encodeURIComponent(templateDir)}&port=${devServer.port}&secret=${devServer.secret}`;
+  let location = editorURL() + `?templatepath=${encodeURIComponent(templatePath)}&templatedir=${encodeURIComponent(templateDir)}&port=${devServer.port}&secret=${devServer.secret}`;
 
   if (Object.keys(localStorage).length > 0) {
     location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
