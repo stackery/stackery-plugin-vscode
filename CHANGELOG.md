@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.8
+- Scaffold new functions relative to template location instead of root of workspace
+
 ## 1.0.7
 - Keep canvas contents when switching tabs
 
