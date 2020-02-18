@@ -96,7 +96,7 @@ module.exports = context => async uri => {
     dark: vscode.Uri.file(path.join(context.extensionPath, 'media', 'stackery-teal.svg'))
   };
 
-  const templateDir = path.relative(devServer.folder, path.dirname(uri.path));
+  const templateDir = path.relative(devServer.folder, path.dirname(uri.fsPath));
   let location = editorURL() + `?templatepath=${encodeURIComponent(templatePath)}&templatedir=${encodeURIComponent(templateDir)}&port=${devServer.port}&secret=${devServer.secret}`;
 
   if (Object.keys(localStorage).length > 0) {

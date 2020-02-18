@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.9
+- Fix editing files on Windows
+
 ## 1.0.8
 - Scaffold new functions relative to template location instead of root of workspace
 
