@@ -130,6 +130,10 @@ iframe.contentWindow.location = "${location}";
         localStorage = globalState.get('localStorage');
         break;
 
+      case 'vscode.env.openExternal':
+        await vscode.env.openExternal(message.uri);
+        break;
+
       default:
         console.warn(`stackery: Received unknown message type ${message.type} from extension webview`);
         break;

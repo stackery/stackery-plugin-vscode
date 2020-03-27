@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.0
+- Enable sign-up flow
+
 ## 1.0.9
 - Fix editing files on Windows
 
