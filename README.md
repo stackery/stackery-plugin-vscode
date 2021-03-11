@@ -1,4 +1,4 @@
-<h1 align="center"><img src="https://s3-us-west-2.amazonaws.com/vscode-readme/img/icon.png" alt="Logo" height="128" /></h1>
+<h1 align="center"><img src="https://www.stackery.io/logo/logo.png" alt="Logo" height="128" /></h1>
 <h2 align="center">Stackery Serverless Tools</h2>
 <div align="center">
 </div>
@@ -42,26 +42,17 @@ For additional services, a free Stackery account gets you:
 
 The Stackery extension allows you to visualize and configure the AWS resources defined in your `template.yaml` or `serverless.yml` file. Configuring a resource using the Stackery visual editor renders the appropriate YAML in the `template.yaml` or `serverless.yml` file.
 
-![stackery-vscode-split-screen](https://s3-us-west-2.amazonaws.com/vscode-readme/img/split-screen-1.png)
-
 ### Visual Editing
 
 There are two ways to start using the Stackery visual editor to configure your stack resources:
 
 1. Right-click on `template.yaml` to access the context menu, and select __Open in Stackery__
 
-    ![right-click-screenshot](https://s3-us-west-2.amazonaws.com/vscode-readme/img/right-click-screenshot-1.png)
-
     __or__
 
 2. While in the `template.yaml` file, select the Stackery logo on the top-right corner of the window
 
-    ![stackery-button-screenshot](https://s3-us-west-2.amazonaws.com/vscode-readme/img/logo-button-screenshot-1.png)
-
 ### Configure resources
-
-<!-- ![VS Code](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif) -->
-<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode.gif" width="600">
 
 To configure stack resources:
 
@@ -76,17 +67,9 @@ To configure stack resources:
 
 Subscribe compute resources to events emitted by other resources using a __event subscription wire__ (solid wire), e.g. an __Edge Function__ triggered by a __CDN__ lifecycle event.
 
-<!-- ![VS Code clip 1](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif) -->
-<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip1.gif" width="600">
-
-
 ### Service discovery
 
 Connect a compute resource (Function, Edge Function, or Docker Task) to another resource using a __service discovery wire__ (dashed wire) to populate the IAM policies and environment variables required for it to interact with that resource, e.g. a __Function__ accessing an __Object Store__.
-
-<!-- ![VS Code clip 2](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif) -->
-<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-clip2.gif" width="600">
-
 
 ## Workflow Example
 
@@ -99,22 +82,10 @@ stackery create -n simple-serverless-crud -p github --github-org MyUsername --bl
 1. Open VS Code, and install the __Stackery Serverless Tools__ extension from the Extensions Marketplace if you have not already done so
 2. Clone your stack from your Git provider
 3. In VS Code, select __Add workspace folder__ from the menu or welcome screen
-
-    ![open workspace folder](https://s3-us-west-2.amazonaws.com/vscode-readme/img/open-workspace.png)
-
 4. Open the `template.yaml` file from the sidebar
 5. Click the Stackery icon in the top right corner
-
-    ![open template.yaml](https://s3-us-west-2.amazonaws.com/vscode-readme/img/open-template.png)
-
 6. The first time you use the Stackery extension in a new workspace in VS Code, you will be prompted to log in to Stackery. Use the same username and password you would use in the app
-
-    ![login](https://s3-us-west-2.amazonaws.com/vscode-readme/img/login.png)
-
 7. (Optional) Pull your template to the side of the visual editor if you want a side-by-side view
-
-    ![side-by-side view](https://s3-us-west-2.amazonaws.com/vscode-readme/img/view.png)
-
 8.  Click the __Add Resource__ button in the top right of the visual editor
 9.  Click the __Function__ resource to add it to the editor _(you will see the relevant code added to the `template.yaml` file as you use the visual editor)_
 10. Click the __Object Store__ resource to add it to the editor
@@ -123,9 +94,6 @@ stackery create -n simple-serverless-crud -p github --github-org MyUsername --bl
 13. In the terminal, `git add`, `commit`, and `push` your changes to your Git repository. You will see your changes reflected in the Stackery app if it's open in your browser
 
 The video below shows steps 4-13:
-
-<!-- ![VS Code workflow](https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif){:width="400px"} -->
-<img src="https://s3-us-west-2.amazonaws.com/vscode-readme/gifs/vscode-workflow.gif" width="600">
 
 ## Troubleshooting
 
