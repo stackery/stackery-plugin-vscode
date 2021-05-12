@@ -71,7 +71,7 @@ module.exports = context => async uri => {
   if (!devServer) {
     devServer = await vscode.windows.withProgress({
       location: vscode.ProgressLocation.Notification,
-      title: `Loading project files....`
+      title: 'Loading project files....'
     },
     progress => {
       progress.report({ increment: 33 });
@@ -103,15 +103,7 @@ module.exports = context => async uri => {
     location += `&localstorage=${encodeURIComponent(JSON.stringify(localStorage))}`;
   }
 
-  panel.webview.html =
-`<script>
-const iframe = top.document.getElementsByTagName('iframe')[0];
-
-iframe.setAttribute('id', 'active-frame');
-iframe.style.visibility = "visible";
-iframe.contentWindow.focus();
-iframe.contentWindow.location = "${location}";
-</script>`;
+  panel.webview.html = getHtmlForWebview(panel.webview, location);
 
   panel.webview.onDidReceiveMessage(async message => {
     switch (message.type) {
@@ -157,3 +149,17 @@ const editorURL = () => {
       return `https://${env}-app.stackery.io${EDITOR_PATH}`;
   }
 };
+
+const getHtmlForWebview = (webview, location) => (
+  `<!DOCTYPE html>
+    <html lang="en" style="width: 100%; height: 100%;">
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src http://localhost:* https://*.stackery.io; img-src ${webview.cspSource} https:; script-src ${webview.cspSource}; style-src ${webview.cspSource} 'unsafe-inline';">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="width: 100%; height: 100%; margin: 0; padding: 0;">
+        <iframe frameborder="0" width="100%" height="100%" src=${location} />
+      </body>
+  </html>`
+);
