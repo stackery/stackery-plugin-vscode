@@ -24,10 +24,6 @@ The extension can be packaged by doing the following:
 
 ### Release
 
-Still mostly TBD
-
-Acquire a personal access token and login using vsce if needed: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
-
 1. Determine next version, depending on whether this is a patch, minor, or major version increase
 1. Update CHANGELOG.md (follow [Keep a Changelog](http://keepachangelog.com/) recommendations on how to structure this entries.)
-1. Run `vsce publish [major|minor|patch]`
+1. Commit the CHANGELOG.md update and push a tagged version
