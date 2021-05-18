@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.1
+- Fix rendering when using VS Code 1.56 (April 2021)
+
 ## 1.1.0
 - Enable sign-up flow
 
