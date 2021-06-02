@@ -65,19 +65,19 @@
 		}
 	},
 	"scripts": {
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "node ./node_modules/vscode/bin/test"
+		"test": "node test/runTest.js"
 	},
 	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"eslint": "^5.13.0",
+		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
+		"eslint": "^5.13.0",
+		"typescript": "^3.3.1"
 	},
 	"dependencies": {
+		"@types/vscode": "^1.33.0",
 		"hasbin": "^1.2.3",
 		"request": "^2.88.0",
-		"semver": "^6.0.0"
+		"semver": "^6.0.0",
+		"vscode-test": "^1.5.2"
 	}
 }
