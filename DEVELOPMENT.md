@@ -24,10 +24,13 @@ The extension can be packaged by doing the following:
 
 ### Release
 
-Still mostly TBD
+Acquire a personal access token and login using vsce if needed: https://code.visualstudio.com/api/working-with-extensions/publishing-extension. If you need access to the "stackery" project in Azure DevOps reach out to Chase to be added to the account.
 
-Acquire a personal access token and login using vsce if needed: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
-
+1. Clone / check out a clean copy of the `master` branch
 1. Determine next version, depending on whether this is a patch, minor, or major version increase
 1. Update CHANGELOG.md (follow [Keep a Changelog](http://keepachangelog.com/) recommendations on how to structure this entries.)
-1. Run `vsce publish [major|minor|patch]`
+1. Run `vsce publish [major|minor|patch]`.
+    
+    **WARNING:** If this fails, make sure to revert any changes it made in package.json or elsewhere before re-running the command. Otherwise, it will double-increment the version before publishing.
+    
+1. Push the new commit and release tag to the repo: `git push origin HEAD --tags`
