@@ -70,11 +70,11 @@
 	"devDependencies": {
 		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
+		"@types/vscode": "^1.33.0",
 		"eslint": "^5.13.0",
 		"typescript": "^3.3.1"
 	},
 	"dependencies": {
-		"@types/vscode": "^1.33.0",
 		"hasbin": "^1.2.3",
 		"request": "^2.88.0",
 		"semver": "^6.0.0",
